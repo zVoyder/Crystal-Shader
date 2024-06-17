@@ -104,7 +104,7 @@ Shader "Custom/Crystal"
         /**
          * Calculates the refraction texture with the grab pass texture
          **/
-        float4 caluculateRefractionTexture(float3 viewDir, float3 worldNormal, float4 screenPos)
+        float4 calculateRefractionTexture(float3 viewDir, float3 worldNormal, float4 screenPos)
         {
             float3 refractDir = refract(viewDir, worldNormal, 1);
             float2 refractedUV = screenPos.xy / screenPos.w + _Refraction * refractDir.xy;
@@ -121,7 +121,7 @@ Shader "Custom/Crystal"
         {
             fixed4 mainText = tex2D(_MainTex, IN.uv_MainTex) * _Color;
             fixed4 lerpedMainText = lerp(_Color, mainText, _TextureAlpha);
-            float4 refractionText = caluculateRefractionTexture(IN.viewDir, IN.worldNormal, IN.screenPos) * lerpedMainText;
+            float4 refractionText = calculateRefractionTexture(IN.viewDir, IN.worldNormal, IN.screenPos) * lerpedMainText;
             float4 finalColor = lerp(lerpedMainText, refractionText, _Transparency);
 
             o.Albedo = finalColor.rgb;
